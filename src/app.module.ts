@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { User } from './users/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/user.module';
+import { APP_PIPE } from '@nestjs/core';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Module({
   imports: [
@@ -20,6 +22,13 @@ import { UsersModule } from './users/user.module';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule {}

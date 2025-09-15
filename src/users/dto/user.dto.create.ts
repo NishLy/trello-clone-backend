@@ -1,4 +1,4 @@
-import { createZodDto } from '@anatine/zod-nestjs';
+import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 export const CreateUserSchema = z.object({
@@ -7,4 +7,5 @@ export const CreateUserSchema = z.object({
   password: z.string().min(8).max(255),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export class CreateUserDto extends createZodDto(CreateUserSchema) {}
