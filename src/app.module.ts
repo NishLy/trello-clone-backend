@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './users/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/user.module';
 
 @Module({
   imports: [
@@ -11,11 +12,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'password',
-      database: 'testdb',
+      password: 'postgres',
+      database: 'trello-db',
       entities: [User],
       synchronize: true, // ❗ dev only (auto create tables)
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
