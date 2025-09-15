@@ -19,7 +19,7 @@ export class AuthController {
   // eslint-disable-next-line @typescript-eslint/require-await
   async login(@Request() req) {
     // req.user comes from LocalStrategy.validate()
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.authService.login(req.user);
   }
 

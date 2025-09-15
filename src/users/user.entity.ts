@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Board } from 'src/board/board.entity';
 
 @Entity()
 export class User {
@@ -14,6 +21,10 @@ export class User {
 
   @Column()
   password: string;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  @OneToMany(() => Board, (board) => board.user, { cascade: true })
+  boards: Board[];
 
   @BeforeInsert()
   async hashPassword() {

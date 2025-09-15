@@ -8,6 +8,9 @@ import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { Board } from './board/board.entity';
+import { Panel } from './panel/panel.entity';
+import { BoardModule } from './board/board.module';
 
 @Module({
   imports: [
@@ -21,11 +24,12 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'trello-db',
-      entities: [User],
+      entities: [User, Board, Panel],
       synchronize: true, // ❗ dev only (auto create tables)
     }),
     UsersModule,
     AuthModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [
