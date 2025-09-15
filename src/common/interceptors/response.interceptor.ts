@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   CallHandler,
   ExecutionContext,
@@ -11,11 +13,10 @@ import { map } from 'rxjs/operators';
 export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      map((data) => ({
-        success: true,
-        message: 'Request successful',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        data,
+      map((response) => ({
+        success: response?.success ?? true,
+        message: response?.message ?? 'Request successful',
+        data: response?.data ?? response,
       })),
     );
   }

@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Board } from 'src/board/board.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -19,7 +20,8 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  @Column({ select: false })
   password: string;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
