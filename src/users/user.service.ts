@@ -17,15 +17,15 @@ export class UsersService {
     return this.usersRepo.save(user);
   }
 
+  findById(id: number) {
+    return this.usersRepo.findOne({ where: { id } });
+  }
+
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersRepo.findOne({ where: { email } });
     if (user && (await user.comparePassword(password))) {
       return user;
     }
     return null;
-  }
-
-  findById(id: number) {
-    return this.usersRepo.findOne({ where: { id } });
   }
 }

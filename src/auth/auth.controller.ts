@@ -1,24 +1,32 @@
 import {
-  Body,
   Controller,
-  HttpException,
-  HttpStatus,
+  Request,
   Post,
+  UseGuards,
+  Get,
+  Body,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthLoginDto } from './dto/auth.dto.login';
+import { JwtAuthGuard } from './auth.guard.jwt';
+import { LocalAuthGuard } from './auth.guard.local';
 
 @Controller('auth')
-export class UsersController {
-  constructor(private readonly authService: AuthService) {}
+export class AuthController {
+  constructor(private authService: AuthService) {}
 
-  @Post()
-  async login(@Body() dto: AuthLoginDto) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const user = await this.authService.validateUser(dto.email, dto.password);
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async login(@Request() req) {
+    // req.user comes from LocalStrategy.validate()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.authService.login(req.user);
+  }
 
-    if (user) {
-      throw new HttpException('Invalid Credentials', HttpStatus.UNAUTHORIZED);
-    }
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+    return req.user;
   }
 }

@@ -6,9 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/user.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Makes the ConfigService available project-wide
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres', // or 'mysql' / 'sqlite'
       host: 'localhost',
@@ -20,6 +25,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
       synchronize: true, // ❗ dev only (auto create tables)
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
